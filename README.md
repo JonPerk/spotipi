@@ -5,11 +5,11 @@
 Current maintainers are [listed on GitHub](https://github.com/orgs/librespot-org/people).
 
 # spotipi
-*SpotiPi* is an open source client library for Spotify, based on Librespot (https://github.com/librespot-org/librespot). It enables applications to use Spotify's service to control and play music via various backends, and to act as a Spotify Connect receiver. It is an alternative to the official and [now deprecated](https://pyspotify.mopidy.com/en/latest/#libspotify-s-deprecation) closed-source `libspotify`. Additionally, it will provide extra features which are not available in the official library.
+*SpotiPi* is an open source client library for Spotify, based on [Librespot](https://github.com/librespot-org/librespot). It enables applications to use Spotify's service to control and play music via various backends, and to act as a Spotify Connect receiver. It is an alternative to the official and [now deprecated](https://pyspotify.mopidy.com/en/latest/#libspotify-s-deprecation) closed-source `libspotify`. Additionally, it will provide extra features which are not available in the official library.
 
 _Note: SpotiPi only works with Spotify Premium. This will remain the case. We will not support any features to make librespot compatible with free accounts, such as limited skips and adverts._
 
-_:warning: **All below has not been updated. It reflects Librespot documentation** :warning:_ 
+_:warning: **All below has not been updated. It reflects Librespot documentation. Some is the same, some is not.** :warning:_ 
 ## Quick start
 We're available on [crates.io](https://crates.io/crates/librespot) as the _librespot_ package. Simply run `cargo install librespot` to install librespot on your system. Check the wiki for more info and possible [usage options](https://github.com/librespot-org/librespot/wiki/Options).
 

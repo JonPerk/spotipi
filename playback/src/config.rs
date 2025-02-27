@@ -24,7 +24,7 @@ impl FromStr for Bitrate {
 
 impl Default for Bitrate {
     fn default() -> Self {
-        Self::Bitrate160
+        Self::Bitrate320
     }
 }
 
