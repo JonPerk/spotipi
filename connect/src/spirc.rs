@@ -31,6 +31,7 @@ use crate::{
     LoadContextOptions, LoadRequestOptions,
 };
 use futures_util::StreamExt;
+use librespot_playback::cec::CecClient;
 use protobuf::MessageField;
 use std::{
     future::Future,
@@ -69,6 +70,7 @@ impl From<SpircError> for Error {
 struct SpircTask {
     player: Arc<Player>,
     mixer: Arc<dyn Mixer>,
+    cec_client: Arc<CecClient>,
 
     /// the state management object
     connect_state: ConnectState,
@@ -155,6 +157,7 @@ impl Spirc {
         credentials: Credentials,
         player: Arc<Player>,
         mixer: Arc<dyn Mixer>,
+        cec_client: Arc<CecClient>,
     ) -> Result<(Spirc, impl Future<Output = ()>), Error> {
         fn extract_connection_id(msg: Message) -> Result<String, Error> {
             let connection_id = msg
@@ -222,6 +225,7 @@ impl Spirc {
         let mut task = SpircTask {
             player,
             mixer,
+            cec_client,
 
             connect_state,
 

@@ -6,6 +6,7 @@ use librespot_core as core;
 use librespot_metadata as metadata;
 
 pub mod audio_backend;
+pub mod cec;
 pub mod config;
 pub mod convert;
 pub mod decoder;

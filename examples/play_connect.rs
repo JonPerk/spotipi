@@ -12,6 +12,7 @@ use librespot::{
     },
 };
 
+use librespot_playback::cec::CecClient;
 use log::LevelFilter;
 
 const CACHE: &str = ".cache";
@@ -51,6 +52,7 @@ async fn main() -> Result<(), Error> {
 
     let session = Session::new(session_config, Some(cache));
     let mixer = mixer_builder(mixer_config);
+    let cec_client = CecClient::new("Example".into(), c"/dev/cec/0".into());
 
     let player = Player::new(
         player_config,
@@ -60,7 +62,7 @@ async fn main() -> Result<(), Error> {
     );
 
     let (spirc, spirc_task) =
-        Spirc::new(connect_config, session.clone(), credentials, player, mixer).await?;
+        Spirc::new(connect_config, session.clone(), credentials, player, mixer, cec_client).await?;
 
     // these calls can be seen as "queued"
     spirc.activate()?;

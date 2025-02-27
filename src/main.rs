@@ -1,12 +1,5 @@
 use std::{
-    env,
-    fs::create_dir_all,
-    ops::RangeInclusive,
-    path::{Path, PathBuf},
-    pin::Pin,
-    process::exit,
-    str::FromStr,
-    time::{Duration, Instant},
+    env, ffi::CString, fs::create_dir_all, ops::RangeInclusive, path::{Path, PathBuf}, pin::Pin, process::exit, str::FromStr, time::{Duration, Instant}
 };
 
 use data_encoding::HEXLOWER;
@@ -31,6 +24,7 @@ use librespot::{
     },
 };
 use librespot_oauth::OAuthClientBuilder;
+use librespot_playback::cec::CecClient;
 use log::{debug, error, info, trace, warn};
 use sha1::{Digest, Sha1};
 use sysinfo::{ProcessesToUpdate, System};
@@ -210,6 +204,7 @@ struct Setup {
     session_config: SessionConfig,
     connect_config: ConnectConfig,
     mixer_config: MixerConfig,
+    cec_port: CString,
     credentials: Option<Credentials>,
     enable_oauth: bool,
     oauth_port: Option<u16>,
@@ -236,6 +231,7 @@ fn get_setup() -> Setup {
     const BITRATE: &str = "bitrate";
     const CACHE: &str = "cache";
     const CACHE_SIZE_LIMIT: &str = "cache-size-limit";
+    const CEC_PORT: &str = "cec-port";
     const DEVICE: &str = "device";
     const DEVICE_TYPE: &str = "device-type";
     const DEVICE_IS_GROUP: &str = "group";
@@ -330,6 +326,7 @@ fn get_setup() -> Setup {
     const NORMALISATION_THRESHOLD_SHORT: &str = "Z";
     const ZEROCONF_PORT_SHORT: &str = "z";
     const ZEROCONF_BACKEND_SHORT: &str = ""; // no short flag
+    const CEC_PORT_SHORT: &str = ""; // no short flag
 
     // Options that have different descriptions
     // depending on what backends were enabled at build time.
@@ -431,7 +428,7 @@ fn get_setup() -> Setup {
     .optopt(
         NAME_SHORT,
         NAME,
-        "Device name. Defaults to Librespot.",
+        "Device name. Defaults to SpotiPi.",
         "NAME",
     )
     .optopt(
@@ -551,6 +548,12 @@ fn get_setup() -> Setup {
         DEVICE,
         DEVICE_DESC,
         "NAME",
+    )
+    .optopt(
+        CEC_PORT_SHORT, 
+        CEC_PORT, 
+        "The HDMI port for HDMI-CEC communication with connected devices", 
+        "PORT"
     )
     .optopt(
         INITIAL_VOLUME_SHORT,
@@ -1102,6 +1105,7 @@ fn get_setup() -> Setup {
         }
     };
 
+    let cec_port: CString = CString::new(opt_str(CEC_PORT).unwrap_or_else(|| "/dev/cec0".into())).unwrap();
     let tmp_dir = opt_str(TEMP_DIR).map_or(SessionConfig::default().tmp_dir, |p| {
         let tmp_dir = PathBuf::from(p);
         if let Err(e) = create_dir_all(&tmp_dir) {
@@ -1807,6 +1811,7 @@ fn get_setup() -> Setup {
         backend,
         device,
         mixer,
+        cec_port,
         cache,
         player_config,
         session_config,
@@ -1931,6 +1936,7 @@ async fn main() {
     let player = Player::new(player_config, session.clone(), soft_volume, move || {
         (backend)(device, format)
     });
+    let cec_client = CecClient::new(setup.connect_config.name.clone(), setup.cec_port);
 
     if let Some(player_event_program) = setup.player_event_program.clone() {
         _event_handler = Some(EventHandler::new(
@@ -1991,7 +1997,8 @@ async fn main() {
                                                                 session.clone(),
                                                                 last_credentials.clone().unwrap_or_default(),
                                                                 player.clone(),
-                                                                mixer.clone()).await {
+                                                                mixer.clone(),
+                                                                cec_client.clone(),).await {
                     Ok((spirc_, spirc_task_)) => (spirc_, spirc_task_),
                     Err(e) => {
                         error!("could not initialize spirc: {}", e);
