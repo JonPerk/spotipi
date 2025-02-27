@@ -9,7 +9,7 @@ Current maintainers are [listed on GitHub](https://github.com/orgs/librespot-org
 
 _Note: SpotiPi only works with Spotify Premium. This will remain the case. We will not support any features to make librespot compatible with free accounts, such as limited skips and adverts._
 
-_:warning: **All below has not been updated. It reflects Librespot documentation**_ 
+_:warning: **All below has not been updated. It reflects Librespot documentation** :warning:_ 
 ## Quick start
 We're available on [crates.io](https://crates.io/crates/librespot) as the _librespot_ package. Simply run `cargo install librespot` to install librespot on your system. Check the wiki for more info and possible [usage options](https://github.com/librespot-org/librespot/wiki/Options).
 
