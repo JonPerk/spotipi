@@ -1,23 +1,23 @@
 [package]
-name = "librespot"
+name = "spotipi"
 version = "0.6.0-dev"
 rust-version = "1.81"
-authors = ["Librespot Org"]
+authors = ["Jon Perkowski","Librespot Org"]
 license = "MIT"
-description = "An open source client library for Spotify, with support for Spotify Connect"
+description = "An open source client library for Spotify, with support for Spotify Connect, based on Librespot (https://github.com/librespot-org/librespot)"
 keywords = ["spotify"]
-repository = "https://github.com/librespot-org/librespot"
+repository = "https://github.com/JonPerk/spotipi"
 readme = "README.md"
 edition = "2021"
 
 [workspace]
 
 [lib]
-name = "librespot"
+name = "spotipi"
 path = "src/lib.rs"
 
 [[bin]]
-name = "librespot"
+name = "spotipi"
 path = "src/main.rs"
 doc = false
 
@@ -85,21 +85,21 @@ passthrough-decoder = ["librespot-playback/passthrough-decoder"]
 default = ["rodio-backend", "with-libmdns"]
 
 [package.metadata.deb]
-maintainer = "librespot-org"
-copyright = "2018 Paul Liétar"
+maintainer = "Jon Perkowski"
+copyright = "2025 Jon Perkowski"
 license-file = ["LICENSE", "4"]
 depends = "$auto"
 extended-description = """\
-librespot is an open source client library for Spotify. It enables applications \
+SpotiPi is an open source client library for Spotify. It enables applications \
 to use Spotify's service, without using the official but closed-source \
 libspotify. Additionally, it will provide extra features which are not \
 available in the official library."""
 section = "sound"
 priority = "optional"
 assets = [
-    ["target/release/librespot", "usr/bin/", "755"],
-    ["contrib/librespot.service", "lib/systemd/system/", "644"],
-    ["contrib/librespot.user.service", "lib/systemd/user/", "644"]
+    ["target/release/spotipi", "usr/bin/", "755"]
+    #["contrib/librespot.service", "lib/systemd/system/", "644"],
+    #["contrib/librespot.user.service", "lib/systemd/user/", "644"]
 ]
 
 [workspace.package]

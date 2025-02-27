@@ -2107,30 +2107,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "librespot"
-version = "0.6.0-dev"
-dependencies = [
- "data-encoding",
- "env_logger",
- "futures-util",
- "getopts",
- "librespot-audio",
- "librespot-connect",
- "librespot-core",
- "librespot-discovery",
- "librespot-metadata",
- "librespot-oauth",
- "librespot-playback",
- "librespot-protocol",
- "log",
- "sha1",
- "sysinfo",
- "thiserror 2.0.11",
- "tokio",
- "url",
-]
-
-[[package]]
 name = "librespot-audio"
 version = "0.6.0-dev"
 dependencies = [
@@ -3724,6 +3700,30 @@ checksum = "d91ed6c858b01f942cd56b37a94b3e0a1798290327d1236e4d9cf4eaca44d29d"
 dependencies = [
  "base64ct",
  "der",
+]
+
+[[package]]
+name = "spotipi"
+version = "0.6.0-dev"
+dependencies = [
+ "data-encoding",
+ "env_logger",
+ "futures-util",
+ "getopts",
+ "librespot-audio",
+ "librespot-connect",
+ "librespot-core",
+ "librespot-discovery",
+ "librespot-metadata",
+ "librespot-oauth",
+ "librespot-playback",
+ "librespot-protocol",
+ "log",
+ "sha1",
+ "sysinfo",
+ "thiserror 2.0.11",
+ "tokio",
+ "url",
 ]
 
 [[package]]
