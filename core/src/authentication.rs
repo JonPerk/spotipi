@@ -46,7 +46,7 @@ impl Credentials {
     ///
     /// ### Example
     /// ```rust
-    /// use librespot_core::authentication::Credentials;
+    /// use spotipi_core::authentication::Credentials;
     ///
     /// let creds = Credentials::with_password("my account", "my password");
     /// ```

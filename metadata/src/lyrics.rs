@@ -1,6 +1,6 @@
 use bytes::Bytes;
 
-use librespot_core::{Error, FileId, Session, SpotifyId};
+use spotipi_core::{Error, FileId, Session, SpotifyId};
 
 impl Lyrics {
     pub async fn get(session: &Session, id: &SpotifyId) -> Result<Self, Error> {

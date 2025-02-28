@@ -11,7 +11,7 @@ use crate::{
     util::{impl_deref_wrapped, impl_try_from_repeated},
 };
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 pub use protocol::playlist4_external::op::Kind as PlaylistOperationKind;
 use protocol::playlist4_external::Add as PlaylistAddMessage;
 use protocol::playlist4_external::Mov as PlaylistMoveMessage;
@@ -57,7 +57,7 @@ pub struct PlaylistOperationRemove {
 }
 
 impl TryFrom<&PlaylistOperationMessage> for PlaylistOperation {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(operation: &PlaylistOperationMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             kind: operation.kind(),
@@ -79,7 +79,7 @@ impl TryFrom<&PlaylistOperationMessage> for PlaylistOperation {
 impl_try_from_repeated!(PlaylistOperationMessage, PlaylistOperations);
 
 impl TryFrom<&PlaylistAddMessage> for PlaylistOperationAdd {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(add: &PlaylistAddMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             from_index: add.from_index(),
@@ -101,7 +101,7 @@ impl From<&PlaylistMoveMessage> for PlaylistOperationMove {
 }
 
 impl TryFrom<&PlaylistRemoveMessage> for PlaylistOperationRemove {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(remove: &PlaylistRemoveMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             from_index: remove.from_index(),

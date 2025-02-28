@@ -13,7 +13,7 @@ use crate::{
 
 use super::file::AudioFiles;
 
-use librespot_core::{
+use spotipi_core::{
     date::Date, session::UserData, spotify_id::SpotifyItemType, Error, Session, SpotifyId,
 };
 

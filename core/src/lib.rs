@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate log;
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 
 #[macro_use]
 mod component;

@@ -149,7 +149,7 @@ pub async fn authenticate(
         .system_info
         .mut_or_insert_default()
         .set_system_information_string(format!(
-            "librespot-{}-{}",
+            "spotipi-{}-{}",
             version::SHA_SHORT,
             version::BUILD_ID
         ));
@@ -157,7 +157,7 @@ pub async fn authenticate(
         .system_info
         .mut_or_insert_default()
         .set_device_id(device_id.to_string());
-    packet.set_version_string(format!("librespot {}", version::SEMVER));
+    packet.set_version_string(format!("spotipi {}", version::SEMVER));
 
     let cmd = PacketType::Login;
     let data = packet.write_to_bytes()?;

@@ -133,7 +133,7 @@ impl LogMapping {
 // which in turn was inspired by: https://www.robotplanet.dk/audio/audio_gui_design/
 //
 // Though this mapping is computationally less expensive than the logarithmic
-// mapping, it really does not matter as librespot memoizes the mapped value.
+// mapping, it really does not matter as spotipi memoizes the mapped value.
 // Use this mapping if you have some reason to mimic Alsa's native mixer or
 // prefer a more granular control in the upper volume range.
 //

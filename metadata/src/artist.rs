@@ -16,9 +16,9 @@ use crate::{
     Metadata,
 };
 
-use librespot_core::{Error, Session, SpotifyId};
+use spotipi_core::{Error, Session, SpotifyId};
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 pub use protocol::metadata::artist_with_role::ArtistRole;
 
 use protocol::metadata::ActivityPeriod as ActivityPeriodMessage;
@@ -181,7 +181,7 @@ impl Metadata for Artist {
 }
 
 impl TryFrom<&<Self as Metadata>::Message> for Artist {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(artist: &<Self as Metadata>::Message) -> Result<Self, Self::Error> {
         Ok(Self {
             id: artist.try_into()?,
@@ -214,7 +214,7 @@ impl TryFrom<&<Self as Metadata>::Message> for Artist {
 impl_try_from_repeated!(<Artist as Metadata>::Message, Artists);
 
 impl TryFrom<&ArtistWithRoleMessage> for ArtistWithRole {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(artist_with_role: &ArtistWithRoleMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             id: artist_with_role.try_into()?,
@@ -227,7 +227,7 @@ impl TryFrom<&ArtistWithRoleMessage> for ArtistWithRole {
 impl_try_from_repeated!(ArtistWithRoleMessage, ArtistsWithRole);
 
 impl TryFrom<&TopTracksMessage> for TopTracks {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(top_tracks: &TopTracksMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             country: top_tracks.country().to_owned(),
@@ -239,7 +239,7 @@ impl TryFrom<&TopTracksMessage> for TopTracks {
 impl_try_from_repeated!(TopTracksMessage, CountryTopTracks);
 
 impl TryFrom<&AlbumGroupMessage> for AlbumGroup {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(album_groups: &AlbumGroupMessage) -> Result<Self, Self::Error> {
         Ok(Self(album_groups.album.as_slice().try_into()?))
     }
@@ -275,7 +275,7 @@ impl From<&BiographyMessage> for Biography {
 impl_from_repeated!(BiographyMessage, Biographies);
 
 impl TryFrom<&ActivityPeriodMessage> for ActivityPeriod {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
 
     fn try_from(period: &ActivityPeriodMessage) -> Result<Self, Self::Error> {
         let activity_period = match (
@@ -292,7 +292,7 @@ impl TryFrom<&ActivityPeriodMessage> for ActivityPeriod {
                     .transpose()?,
             },
             _ => {
-                return Err(librespot_core::Error::failed_precondition(
+                return Err(spotipi_core::Error::failed_precondition(
                     "ActivityPeriod is expected to be either a decade or timespan",
                 ))
             }

@@ -7,9 +7,9 @@ use thiserror::Error;
 
 use crate::util::{impl_deref_wrapped, impl_try_from_repeated};
 
-use librespot_core::date::Date;
+use spotipi_core::date::Date;
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 use protocol::metadata::Availability as AvailabilityMessage;
 
 pub type AudioItemAvailability = Result<(), UnavailabilityReason>;
@@ -38,7 +38,7 @@ pub enum UnavailabilityReason {
 }
 
 impl TryFrom<&AvailabilityMessage> for Availability {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(availability: &AvailabilityMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             catalogue_strs: availability.catalogue_str.to_vec(),

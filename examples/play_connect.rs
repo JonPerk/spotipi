@@ -1,4 +1,4 @@
-use librespot::{
+use spotipi::{
     connect::{ConnectConfig, LoadRequest, LoadRequestOptions, Spirc},
     core::{
         authentication::Credentials, cache::Cache, config::SessionConfig, session::Session, Error,
@@ -12,7 +12,7 @@ use librespot::{
     },
 };
 
-use librespot_playback::cec::CecClient;
+use spotipi_playback::cec::CecClient;
 use log::LevelFilter;
 
 const CACHE: &str = ".cache";
@@ -21,7 +21,7 @@ const CACHE_FILES: &str = ".cache/files";
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     env_logger::builder()
-        .filter_module("librespot", LevelFilter::Debug)
+        .filter_module("spotipi", LevelFilter::Debug)
         .init();
 
     let session_config = SessionConfig::default();
@@ -39,7 +39,7 @@ async fn main() -> Result<(), Error> {
         .credentials()
         .ok_or(Error::unavailable("credentials not cached"))
         .or_else(|_| {
-            librespot_oauth::OAuthClientBuilder::new(
+            spotipi_oauth::OAuthClientBuilder::new(
                 &session_config.client_id,
                 "http://127.0.0.1:8898/login",
                 vec!["streaming"],

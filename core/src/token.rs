@@ -1,4 +1,4 @@
-// Ported from librespot-java. Relicensed under MIT with permission.
+// Ported from spotipi-java. Relicensed under MIT with permission.
 
 // Known scopes:
 //   ugc-image-upload, playlist-read-collaborative, playlist-modify-private,

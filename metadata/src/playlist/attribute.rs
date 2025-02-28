@@ -9,9 +9,9 @@ use crate::{
     util::{impl_deref_wrapped, impl_from_repeated_copy},
 };
 
-use librespot_core::date::Date;
+use spotipi_core::date::Date;
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 use protocol::playlist4_external::FormatListAttribute as PlaylistFormatAttributeMessage;
 pub use protocol::playlist4_external::ItemAttributeKind as PlaylistItemAttributeKind;
 use protocol::playlist4_external::ItemAttributes as PlaylistItemAttributesMessage;
@@ -95,7 +95,7 @@ pub struct PlaylistUpdateItemAttributes {
 }
 
 impl TryFrom<&PlaylistAttributesMessage> for PlaylistAttributes {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(attributes: &PlaylistAttributesMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             name: attributes.name().to_owned(),
@@ -124,7 +124,7 @@ impl From<&[PlaylistFormatAttributeMessage]> for PlaylistFormatAttribute {
 }
 
 impl TryFrom<&PlaylistItemAttributesMessage> for PlaylistItemAttributes {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(attributes: &PlaylistItemAttributesMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             added_by: attributes.added_by().to_owned(),
@@ -137,7 +137,7 @@ impl TryFrom<&PlaylistItemAttributesMessage> for PlaylistItemAttributes {
     }
 }
 impl TryFrom<&PlaylistPartialAttributesMessage> for PlaylistPartialAttributes {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(attributes: &PlaylistPartialAttributesMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             values: attributes.values.get_or_default().try_into()?,
@@ -153,7 +153,7 @@ impl TryFrom<&PlaylistPartialAttributesMessage> for PlaylistPartialAttributes {
 }
 
 impl TryFrom<&PlaylistPartialItemAttributesMessage> for PlaylistPartialItemAttributes {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(attributes: &PlaylistPartialItemAttributesMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             values: attributes.values.get_or_default().try_into()?,
@@ -169,7 +169,7 @@ impl TryFrom<&PlaylistPartialItemAttributesMessage> for PlaylistPartialItemAttri
 }
 
 impl TryFrom<&PlaylistUpdateAttributesMessage> for PlaylistUpdateAttributes {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(update: &PlaylistUpdateAttributesMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             new_attributes: update.new_attributes.get_or_default().try_into()?,
@@ -179,7 +179,7 @@ impl TryFrom<&PlaylistUpdateAttributesMessage> for PlaylistUpdateAttributes {
 }
 
 impl TryFrom<&PlaylistUpdateItemAttributesMessage> for PlaylistUpdateItemAttributes {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(update: &PlaylistUpdateItemAttributesMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             index: update.index(),

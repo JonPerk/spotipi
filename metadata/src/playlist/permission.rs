@@ -5,7 +5,7 @@ use std::{
 
 use crate::util::{impl_deref_wrapped, impl_from_repeated_copy};
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 use protocol::playlist_permission::Capabilities as CapabilitiesMessage;
 use protocol::playlist_permission::PermissionLevel;
 

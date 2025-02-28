@@ -5,8 +5,8 @@ use std::{
 use data_encoding::HEXLOWER;
 use futures_util::StreamExt;
 #[cfg(feature = "alsa-backend")]
-use librespot::playback::mixer::alsamixer::AlsaMixer;
-use librespot::{
+use spotipi::playback::mixer::alsamixer::AlsaMixer;
+use spotipi::{
     connect::{ConnectConfig, Spirc},
     core::{
         authentication::Credentials, cache::Cache, config::DeviceType, version, Session,
@@ -23,8 +23,8 @@ use librespot::{
         player::{coefficient_to_duration, duration_to_coefficient, Player},
     },
 };
-use librespot_oauth::OAuthClientBuilder;
-use librespot_playback::cec::CecClient;
+use spotipi_oauth::OAuthClientBuilder;
+use spotipi_playback::cec::CecClient;
 use log::{debug, error, info, trace, warn};
 use sha1::{Digest, Sha1};
 use sysinfo::{ProcessesToUpdate, System};
@@ -61,11 +61,11 @@ fn setup_logging(quiet: bool, verbose: bool) {
         }
         Err(_) => {
             if verbose {
-                builder.parse_filters("libmdns=info,librespot=trace");
+                builder.parse_filters("libmdns=info,spotipi=trace");
             } else if quiet {
-                builder.parse_filters("libmdns=warn,librespot=warn");
+                builder.parse_filters("libmdns=warn,spotipi=warn");
             } else {
-                builder.parse_filters("libmdns=info,librespot=info");
+                builder.parse_filters("libmdns=info,spotipi=info");
             }
             builder.init();
 
@@ -154,7 +154,7 @@ fn get_version_string() -> String {
     const BUILD_PROFILE: &str = "release";
 
     format!(
-        "librespot {semver} {sha} (Built on {build_date}, Build ID: {build_id}, Profile: {build_profile})",
+        "spotipi {semver} {sha} (Built on {build_date}, Build ID: {build_id}, Profile: {build_profile})",
         semver = version::SEMVER,
         sha = version::SHA_SHORT,
         build_date = version::BUILD_DATE,
@@ -378,7 +378,7 @@ fn get_setup() -> Setup {
     .optflag(
         VERSION_SHORT,
         VERSION,
-        "Display librespot version string.",
+        "Display spotipi version string.",
     )
     .optflag(
         VERBOSE_SHORT,
@@ -648,7 +648,7 @@ fn get_setup() -> Setup {
     .optopt(
         ZEROCONF_BACKEND_SHORT,
         ZEROCONF_BACKEND,
-        "Zeroconf (MDNS/DNS-SD) backend to use. Valid values are 'avahi', 'dns-sd' and 'libmdns', if librespot is compiled with the corresponding feature flags.",
+        "Zeroconf (MDNS/DNS-SD) backend to use. Valid values are 'avahi', 'dns-sd' and 'libmdns', if spotipi is compiled with the corresponding feature flags.",
         "BACKEND"
     );
 
@@ -1218,7 +1218,7 @@ fn get_setup() -> Setup {
         feature = "with-dns-sd",
         feature = "with-avahi"
     )) {
-        Some("librespot compiled without zeroconf backend".to_owned())
+        Some("spotipi compiled without zeroconf backend".to_owned())
     } else if opt_present(DISABLE_DISCOVERY) {
         Some(format!(
             "the `--{}` / `-{}` flag set",
@@ -1352,12 +1352,12 @@ fn get_setup() -> Setup {
 
     let zeroconf_backend_name = opt_str(ZEROCONF_BACKEND);
     let zeroconf_backend = no_discovery_reason.is_none().then(|| {
-        librespot::discovery::find(zeroconf_backend_name.as_deref()).unwrap_or_else(|_| {
-            let available_backends: Vec<_> = librespot::discovery::BACKENDS
+        spotipi::discovery::find(zeroconf_backend_name.as_deref()).unwrap_or_else(|_| {
+            let available_backends: Vec<_> = spotipi::discovery::BACKENDS
                 .iter()
                 .filter_map(|(id, launch_svc)| launch_svc.map(|_| *id))
                 .collect();
-            let default_backend = librespot::discovery::BACKENDS
+            let default_backend = spotipi::discovery::BACKENDS
                 .iter()
                 .find_map(|(id, launch_svc)| launch_svc.map(|_| *id))
                 .unwrap_or("<none>");
@@ -1405,7 +1405,7 @@ fn get_setup() -> Setup {
             }
 
             if env::var("PULSE_PROP_application.process.binary").is_err() {
-                env::set_var("PULSE_PROP_application.process.binary", "librespot");
+                env::set_var("PULSE_PROP_application.process.binary", "spotipi");
             }
 
             if env::var("PULSE_PROP_stream.description").is_err() {
@@ -1867,7 +1867,7 @@ async fn main() {
             let device_id = setup.session_config.device_id.clone();
             let client_id = setup.session_config.client_id.clone();
 
-            match librespot::discovery::Discovery::builder(device_id, client_id)
+            match spotipi::discovery::Discovery::builder(device_id, client_id)
                 .name(setup.connect_config.name.clone())
                 .device_type(setup.connect_config.device_type)
                 .is_group(setup.connect_config.is_group)

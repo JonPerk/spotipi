@@ -5,9 +5,9 @@ use std::{
 
 use crate::util::{impl_deref_wrapped, impl_from_repeated, impl_try_from_repeated};
 
-use librespot_core::{FileId, SpotifyId};
+use spotipi_core::{FileId, SpotifyId};
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 pub use protocol::metadata::image::Size as ImageSize;
 use protocol::metadata::Image as ImageMessage;
 use protocol::metadata::ImageGroup;
@@ -80,7 +80,7 @@ impl From<&PictureSizeMessage> for PictureSize {
 impl_from_repeated!(PictureSizeMessage, PictureSizes);
 
 impl TryFrom<&TranscodedPictureMessage> for TranscodedPicture {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(picture: &TranscodedPictureMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             target_name: picture.target_name().to_owned(),

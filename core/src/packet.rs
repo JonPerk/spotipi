@@ -1,4 +1,4 @@
-// Ported from librespot-java. Relicensed under MIT with permission.
+// Ported from spotipi-java. Relicensed under MIT with permission.
 
 use num_derive::{FromPrimitive, ToPrimitive};
 

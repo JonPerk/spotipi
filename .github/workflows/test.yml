@@ -93,10 +93,10 @@ jobs:
 
       - run: cargo install cargo-hack
       - run: cargo hack --workspace --remove-dev-deps
-      - run: cargo clippy -p librespot-core --no-default-features
-      - run: cargo clippy -p librespot-core
-      - run: cargo hack clippy --each-feature -p librespot-discovery
-      - run: cargo hack clippy --each-feature -p librespot-playback
+      - run: cargo clippy -p spotipi-core --no-default-features
+      - run: cargo clippy -p spotipi-core
+      - run: cargo hack clippy --each-feature -p spotipi-discovery
+      - run: cargo hack clippy --each-feature -p spotipi-playback
       - run: cargo hack clippy --each-feature
 
   test-linux:
@@ -148,10 +148,10 @@ jobs:
 
       - run: cargo install cargo-hack
       - run: cargo hack --workspace --remove-dev-deps
-      - run: cargo check -p librespot-core --no-default-features
-      - run: cargo check -p librespot-core
-      - run: cargo hack check --each-feature -p librespot-discovery
-      - run: cargo hack check --each-feature -p librespot-playback
+      - run: cargo check -p spotipi-core --no-default-features
+      - run: cargo check -p spotipi-core
+      - run: cargo hack check --each-feature -p spotipi-discovery
+      - run: cargo hack check --each-feature -p spotipi-playback
       - run: cargo hack check --each-feature
 
   test-windows:
@@ -282,4 +282,4 @@ jobs:
         run: cargo build --frozen --verbose --target ${{ matrix.target }} --no-default-features
       
       - name: Check binary
-        run: file target/${{ matrix.target }}/debug/librespot
+        run: file target/${{ matrix.target }}/debug/spotipi

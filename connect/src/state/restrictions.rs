@@ -1,6 +1,6 @@
 use crate::state::provider::IsProvider;
 use crate::state::ConnectState;
-use librespot_protocol::player::Restrictions;
+use spotipi_protocol::player::Restrictions;
 use protobuf::MessageField;
 
 impl ConnectState {

@@ -6,8 +6,8 @@ DRY_RUN='false'
 WORKINGDIR="$( cd "$(dirname "$0")" ; pwd -P )"
 cd $WORKINGDIR
 
-# Order: dependencies first (so "librespot" using everything before it goes last)
-crates=( "protocol" "oauth" "core" "discovery" "audio" "metadata" "playback" "connect" "librespot" )
+# Order: dependencies first (so "spotipi" using everything before it goes last)
+crates=( "protocol" "oauth" "core" "discovery" "audio" "metadata" "playback" "connect" "spotipi" )
 
 function replace_in_file() {
   OS=`uname`
@@ -41,7 +41,7 @@ function switchBranch {
 function updateVersion {
   for CRATE in "${crates[@]}"
   do
-    if [ "$CRATE" = "librespot" ]
+    if [ "$CRATE" = "spotipi" ]
     then
       CRATE_DIR=''
     else
@@ -51,7 +51,7 @@ function updateVersion {
     crate_path=${crate_path//\/\///}
     $(replace_in_file "s/^version.*/version = \"$1\"/g" "$crate_path")
     echo "Path is $crate_path"
-    if [ "$CRATE" = "librespot" ]
+    if [ "$CRATE" = "spotipi" ]
     then
       echo "Updating lockfile"
       if [ "$DRY_RUN" = 'true' ] ; then
@@ -96,7 +96,7 @@ function remoteWait() {
 function publishCrates {
   for CRATE in "${crates[@]}"
   do
-    if [ "$CRATE" = "librespot" ]
+    if [ "$CRATE" = "spotipi" ]
     then
       CRATE=''
     fi

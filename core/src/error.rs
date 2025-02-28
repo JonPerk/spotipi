@@ -19,7 +19,7 @@ use tokio::sync::{
 };
 use url::ParseError;
 
-use librespot_oauth::OAuthError;
+use spotipi_oauth::OAuthError;
 
 #[derive(Debug)]
 pub struct Error {

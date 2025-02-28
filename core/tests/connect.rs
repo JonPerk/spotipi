@@ -2,7 +2,7 @@ use std::time::Duration;
 
 use tokio::time::timeout;
 
-use librespot_core::{authentication::Credentials, config::SessionConfig, session::Session};
+use spotipi_core::{authentication::Credentials, config::SessionConfig, session::Session};
 
 #[tokio::test]
 async fn test_connection() {

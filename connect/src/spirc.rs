@@ -31,7 +31,7 @@ use crate::{
     LoadContextOptions, LoadRequestOptions,
 };
 use futures_util::StreamExt;
-use librespot_playback::cec::CecClient;
+use spotipi_playback::cec::CecClient;
 use protobuf::MessageField;
 use std::{
     future::Future,
@@ -1315,7 +1315,7 @@ impl SpircTask {
         }
 
         // Synchronize the volume from the mixer. This is useful on
-        // systems that can switch sources from and back to librespot.
+        // systems that can switch sources from and back to spotipi.
         let current_volume = self.mixer.volume();
         self.set_volume(current_volume);
     }

@@ -1,14 +1,14 @@
 [package]
-name = "librespot-audio"
+name = "spotipi-audio"
 version = "0.6.0-dev"
 rust-version.workspace = true
 authors = ["Paul Lietar <paul@lietar.net>"]
-description = "The audio fetching logic for librespot"
+description = "The audio fetching logic for spotipi"
 license = "MIT"
 repository = "https://github.com/librespot-org/librespot"
 edition = "2021"
 
-[dependencies.librespot-core]
+[dependencies.spotipi-core]
 path = "../core"
 version = "0.6.0-dev"
 

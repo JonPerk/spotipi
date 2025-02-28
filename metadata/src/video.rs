@@ -5,9 +5,9 @@ use std::{
 
 use crate::util::{impl_deref_wrapped, impl_from_repeated};
 
-use librespot_core::FileId;
+use spotipi_core::FileId;
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 use protocol::metadata::VideoFile as VideoFileMessage;
 
 #[derive(Debug, Clone, Default)]

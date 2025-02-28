@@ -1,6 +1,6 @@
 use std::{env, process::exit};
 
-use librespot::{
+use spotipi::{
     core::{
         authentication::Credentials, config::SessionConfig, session::Session, spotify_id::SpotifyId,
     },

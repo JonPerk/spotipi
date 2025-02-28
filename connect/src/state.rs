@@ -77,7 +77,7 @@ impl From<StateError> for Error {
 /// Configuration of the connect device
 #[derive(Debug, Clone)]
 pub struct ConnectConfig {
-    /// The name of the connect device (default: librespot)
+    /// The name of the connect device (default: spotipi)
     pub name: String,
     /// The icon type of the connect device (default: [DeviceType::Speaker])
     pub device_type: DeviceType,
@@ -94,7 +94,7 @@ pub struct ConnectConfig {
 impl Default for ConnectConfig {
     fn default() -> Self {
         Self {
-            name: "librespot".to_string(),
+            name: "spotipi".to_string(),
             device_type: DeviceType::Speaker,
             is_group: false,
             initial_volume: u16::MAX / 2,

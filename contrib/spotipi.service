@@ -1,0 +1,16 @@
+[Unit]
+Description=Spotipi (an open source Spotify client)
+Documentation=https://github.com/spotipi-org/spotipi
+Documentation=https://github.com/spotipi-org/spotipi/wiki/Options
+Wants=network.target sound.target
+After=network.target sound.target
+
+[Service]
+DynamicUser=yes
+SupplementaryGroups=audio
+Restart=always
+RestartSec=10
+ExecStart=/usr/bin/spotipi --name "%p@%H"
+
+[Install]
+WantedBy=multi-user.target

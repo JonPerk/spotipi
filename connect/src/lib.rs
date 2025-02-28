@@ -4,9 +4,9 @@
 #[macro_use]
 extern crate log;
 
-use librespot_core as core;
-use librespot_playback as playback;
-use librespot_protocol as protocol;
+use spotipi_core as core;
+use spotipi_playback as playback;
+use spotipi_protocol as protocol;
 
 mod context_resolver;
 mod model;

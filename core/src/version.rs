@@ -1,5 +1,5 @@
-/// Version string of the form "librespot-\<sha\>"
-pub const VERSION_STRING: &str = concat!("librespot-", env!("VERGEN_GIT_SHA"));
+/// Version string of the form "spotipi-\<sha\>"
+pub const VERSION_STRING: &str = concat!("spotipi-", env!("VERGEN_GIT_SHA"));
 
 /// Generate a timestamp string representing the build date (UTC).
 pub const BUILD_DATE: &str = env!("VERGEN_BUILD_DATE");
@@ -10,7 +10,7 @@ pub const SHA_SHORT: &str = env!("VERGEN_GIT_SHA");
 /// Date of the latest git commit.
 pub const COMMIT_DATE: &str = env!("VERGEN_GIT_COMMIT_DATE");
 
-/// Librespot crate version.
+/// Spotipi crate version.
 pub const SEMVER: &str = env!("CARGO_PKG_VERSION");
 
 /// A random build id.
@@ -36,7 +36,7 @@ pub const SPOTIFY_MOBILE_PROPERTY_SET_ID: &str =
 pub const SPOTIFY_SPIRC_VERSION: &str = "3.2.6";
 
 /// The user agent to fall back to, if one could not be determined dynamically.
-pub const FALLBACK_USER_AGENT: &str = "Spotify/124200290 Linux/0 (librespot)";
+pub const FALLBACK_USER_AGENT: &str = "Spotify/124200290 Linux/0 (spotipi)";
 
 pub fn spotify_version() -> String {
     match crate::config::OS {

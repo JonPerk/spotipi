@@ -1,5 +1,5 @@
 [package]
-name = "librespot-oauth"
+name = "spotipi-oauth"
 version = "0.6.0-dev"
 rust-version.workspace = true
 authors = ["Nick Steel <nick@nsteel.co.uk>"]

@@ -8,7 +8,7 @@ use crate::util::{impl_from_repeated, impl_from_repeated_copy};
 
 use protocol::metadata::Restriction as RestrictionMessage;
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 pub use protocol::metadata::restriction::Catalogue as RestrictionCatalogue;
 pub use protocol::metadata::restriction::Type as RestrictionType;
 

@@ -17,9 +17,9 @@ use crate::{
     Metadata,
 };
 
-use librespot_core::{date::Date, Error, Session, SpotifyId};
+use spotipi_core::{date::Date, Error, Session, SpotifyId};
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 pub use protocol::metadata::album::Type as AlbumType;
 use protocol::metadata::Disc as DiscMessage;
 
@@ -84,7 +84,7 @@ impl Metadata for Album {
 }
 
 impl TryFrom<&<Self as Metadata>::Message> for Album {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(album: &<Self as Metadata>::Message) -> Result<Self, Self::Error> {
         Ok(Self {
             id: album.try_into()?,
@@ -114,7 +114,7 @@ impl TryFrom<&<Self as Metadata>::Message> for Album {
 impl_try_from_repeated!(<Album as Metadata>::Message, Albums);
 
 impl TryFrom<&DiscMessage> for Disc {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(disc: &DiscMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             number: disc.number(),

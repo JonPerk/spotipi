@@ -19,13 +19,13 @@ use tempfile::NamedTempFile;
 use thiserror::Error;
 use tokio::sync::{mpsc, oneshot, Semaphore};
 
-use librespot_core::{cdn_url::CdnUrl, Error, FileId, Session};
+use spotipi_core::{cdn_url::CdnUrl, Error, FileId, Session};
 
 use self::receive::audio_file_fetch;
 
 use crate::range_set::{Range, RangeSet};
 
-pub type AudioFileResult = Result<(), librespot_core::Error>;
+pub type AudioFileResult = Result<(), spotipi_core::Error>;
 
 #[derive(Error, Debug)]
 pub enum AudioFileError {

@@ -3,7 +3,7 @@
 //! with PKCE.
 //!
 //! Assuming sufficient scopes, the returned access token may be used with Spotify's
-//! Web API, and/or to establish a new Session with [`librespot_core`].
+//! Web API, and/or to establish a new Session with [`spotipi_core`].
 //!
 //! The authorization code flow is an interactive process which requires a web browser
 //! to complete. The resulting code must then be provided back from the browser to this

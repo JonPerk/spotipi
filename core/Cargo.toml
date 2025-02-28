@@ -1,19 +1,19 @@
 [package]
-name = "librespot-core"
+name = "spotipi-core"
 version = "0.6.0-dev"
 rust-version.workspace = true
 authors = ["Paul Lietar <paul@lietar.net>"]
 build = "build.rs"
-description = "The core functionality provided by librespot"
+description = "The core functionality provided by spotipi"
 license = "MIT"
 repository = "https://github.com/librespot-org/librespot"
 edition = "2021"
 
-[dependencies.librespot-oauth]
+[dependencies.spotipi-oauth]
 path = "../oauth"
 version = "0.6.0-dev"
 
-[dependencies.librespot-protocol]
+[dependencies.spotipi-protocol]
 path = "../protocol"
 version = "0.6.0-dev"
 

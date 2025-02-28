@@ -8,9 +8,9 @@ use crate::{
     Metadata,
 };
 
-use librespot_core::{Error, Session, SpotifyId};
+use spotipi_core::{Error, Session, SpotifyId};
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 pub use protocol::playlist_annotate3::AbuseReportState;
 
 #[derive(Debug, Clone)]
@@ -71,7 +71,7 @@ impl PlaylistAnnotation {
 impl MercuryRequest for PlaylistAnnotation {}
 
 impl TryFrom<&<PlaylistAnnotation as Metadata>::Message> for PlaylistAnnotation {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(
         annotation: &<PlaylistAnnotation as Metadata>::Message,
     ) -> Result<Self, Self::Error> {

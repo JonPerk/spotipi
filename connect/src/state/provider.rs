@@ -1,4 +1,4 @@
-use librespot_protocol::player::ProvidedTrack;
+use spotipi_protocol::player::ProvidedTrack;
 use std::fmt::{Display, Formatter};
 
 // providers used by spotify

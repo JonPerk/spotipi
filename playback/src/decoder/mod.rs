@@ -76,9 +76,9 @@ pub trait AudioDecoder {
     fn next_packet(&mut self) -> DecoderResult<Option<(AudioPacketPosition, AudioPacket)>>;
 }
 
-impl From<DecoderError> for librespot_core::error::Error {
+impl From<DecoderError> for spotipi_core::error::Error {
     fn from(err: DecoderError) -> Self {
-        librespot_core::error::Error::aborted(err)
+        spotipi_core::error::Error::aborted(err)
     }
 }
 

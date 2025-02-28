@@ -14,13 +14,13 @@ use super::{
     permission::Capabilities,
 };
 
-use librespot_core::{
+use spotipi_core::{
     date::Date,
     spotify_id::{NamedSpotifyId, SpotifyId},
     Error, Session,
 };
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 use protocol::playlist4_external::GeoblockBlockingType as Geoblock;
 
 #[derive(Debug, Clone, Default)]
@@ -126,7 +126,7 @@ impl Metadata for Playlist {
 }
 
 impl TryFrom<&<Playlist as Metadata>::Message> for SelectedListContent {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(playlist: &<Playlist as Metadata>::Message) -> Result<Self, Self::Error> {
         let timestamp = playlist.timestamp();
         let timestamp = if timestamp > 9295169800000 {

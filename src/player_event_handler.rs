@@ -2,7 +2,7 @@ use log::{debug, error, warn};
 
 use std::{collections::HashMap, process::Command, thread};
 
-use librespot::{
+use spotipi::{
     metadata::audio::UniqueFields,
     playback::player::{PlayerEvent, PlayerEventChannel, SinkStatus},
 };

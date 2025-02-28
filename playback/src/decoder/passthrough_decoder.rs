@@ -1,4 +1,4 @@
-// Passthrough decoder for librespot
+// Passthrough decoder for spotipi
 use std::{
     io::{Read, Seek},
     time::{SystemTime, UNIX_EPOCH},

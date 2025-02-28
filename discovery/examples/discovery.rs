@@ -1,15 +1,15 @@
 use futures::StreamExt;
-use librespot_core::SessionConfig;
-use librespot_discovery::DeviceType;
+use spotipi_core::SessionConfig;
+use spotipi_discovery::DeviceType;
 use sha1::{Digest, Sha1};
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
-    let name = "Librespot";
+    let name = "Spotipi";
     let device_id = hex::encode(Sha1::digest(name.as_bytes()));
 
     let mut server =
-        librespot_discovery::Discovery::builder(device_id, SessionConfig::default().client_id)
+        spotipi_discovery::Discovery::builder(device_id, SessionConfig::default().client_id)
             .name(name)
             .device_type(DeviceType::Computer)
             .launch()

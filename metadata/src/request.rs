@@ -2,7 +2,7 @@ use std::fmt::Write;
 
 use crate::MetadataError;
 
-use librespot_core::{Error, Session};
+use spotipi_core::{Error, Session};
 
 pub type RequestResult = Result<bytes::Bytes, Error>;
 

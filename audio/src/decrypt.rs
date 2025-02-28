@@ -4,7 +4,7 @@ use aes::cipher::{KeyIvInit, StreamCipher, StreamCipherSeek};
 
 type Aes128Ctr = ctr::Ctr128BE<aes::Aes128>;
 
-use librespot_core::audio_key::AudioKey;
+use spotipi_core::audio_key::AudioKey;
 
 const AUDIO_AESIV: [u8; 16] = [
     0x72, 0xe0, 0x67, 0xfb, 0xdd, 0xcb, 0xcf, 0x77, 0xeb, 0xe8, 0xbc, 0x64, 0x3f, 0x63, 0x0d, 0x93,

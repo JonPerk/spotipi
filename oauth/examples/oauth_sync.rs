@@ -1,6 +1,6 @@
 use std::env;
 
-use librespot_oauth::OAuthClientBuilder;
+use spotipi_oauth::OAuthClientBuilder;
 
 const SPOTIFY_CLIENT_ID: &str = "65b708073fc0480ea92a077233ca87bd";
 const SPOTIFY_REDIRECT_URI: &str = "http://127.0.0.1:8898/login";
@@ -16,7 +16,7 @@ const RESPONSE: &str = r#"
 
 fn main() {
     let mut builder = env_logger::Builder::new();
-    builder.parse_filters("librespot=trace");
+    builder.parse_filters("spotipi=trace");
     builder.init();
 
     let args: Vec<_> = env::args().collect();

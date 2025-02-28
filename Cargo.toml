@@ -21,36 +21,36 @@ name = "spotipi"
 path = "src/main.rs"
 doc = false
 
-[dependencies.librespot-audio]
+[dependencies.spotipi-audio]
 path = "audio"
 version = "0.6.0-dev"
 
-[dependencies.librespot-connect]
+[dependencies.spotipi-connect]
 path = "connect"
 version = "0.6.0-dev"
 
-[dependencies.librespot-core]
+[dependencies.spotipi-core]
 path = "core"
 version = "0.6.0-dev"
 
-[dependencies.librespot-discovery]
+[dependencies.spotipi-discovery]
 path = "discovery"
 version = "0.6.0-dev"
 default-features = false
 
-[dependencies.librespot-metadata]
+[dependencies.spotipi-metadata]
 path = "metadata"
 version = "0.6.0-dev"
 
-[dependencies.librespot-playback]
+[dependencies.spotipi-playback]
 path = "playback"
 version = "0.6.0-dev"
 
-[dependencies.librespot-protocol]
+[dependencies.spotipi-protocol]
 path = "protocol"
 version = "0.6.0-dev"
 
-[dependencies.librespot-oauth]
+[dependencies.spotipi-oauth]
 path = "oauth"
 version = "0.6.0-dev"
 
@@ -67,20 +67,20 @@ tokio = { version = "1.40", features = ["rt", "macros", "signal", "sync", "parki
 url = "2.2"
 
 [features]
-alsa-backend = ["librespot-playback/alsa-backend"]
-portaudio-backend = ["librespot-playback/portaudio-backend"]
-pulseaudio-backend = ["librespot-playback/pulseaudio-backend"]
-jackaudio-backend = ["librespot-playback/jackaudio-backend"]
-rodio-backend = ["librespot-playback/rodio-backend"]
-rodiojack-backend = ["librespot-playback/rodiojack-backend"]
-sdl-backend = ["librespot-playback/sdl-backend"]
-gstreamer-backend = ["librespot-playback/gstreamer-backend"]
+alsa-backend = ["spotipi-playback/alsa-backend"]
+portaudio-backend = ["spotipi-playback/portaudio-backend"]
+pulseaudio-backend = ["spotipi-playback/pulseaudio-backend"]
+jackaudio-backend = ["spotipi-playback/jackaudio-backend"]
+rodio-backend = ["spotipi-playback/rodio-backend"]
+rodiojack-backend = ["spotipi-playback/rodiojack-backend"]
+sdl-backend = ["spotipi-playback/sdl-backend"]
+gstreamer-backend = ["spotipi-playback/gstreamer-backend"]
 
-with-avahi = ["librespot-discovery/with-avahi"]
-with-dns-sd = ["librespot-discovery/with-dns-sd"]
-with-libmdns = ["librespot-discovery/with-libmdns"]
+with-avahi = ["spotipi-discovery/with-avahi"]
+with-dns-sd = ["spotipi-discovery/with-dns-sd"]
+with-libmdns = ["spotipi-discovery/with-libmdns"]
 
-passthrough-decoder = ["librespot-playback/passthrough-decoder"]
+passthrough-decoder = ["spotipi-playback/passthrough-decoder"]
 
 default = ["rodio-backend", "with-libmdns"]
 
@@ -97,9 +97,9 @@ available in the official library."""
 section = "sound"
 priority = "optional"
 assets = [
-    ["target/release/spotipi", "usr/bin/", "755"]
-    #["contrib/librespot.service", "lib/systemd/system/", "644"],
-    #["contrib/librespot.user.service", "lib/systemd/user/", "644"]
+    ["target/release/spotipi", "usr/bin/", "755"],
+    ["contrib/spotipi.service", "lib/systemd/system/", "644"],
+    ["contrib/spotipi.user.service", "lib/systemd/user/", "644"]
 ]
 
 [workspace.package]

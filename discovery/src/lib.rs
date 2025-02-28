@@ -2,7 +2,7 @@
 //!
 //! This device will show up in the list of "available devices".
 //! Once it is selected from the list, [`Credentials`] are received.
-//! Those can be used to establish a new Session with [`librespot_core`].
+//! Those can be used to establish a new Session with [`spotipi_core`].
 //!
 //! This library uses mDNS and DNS-SD so that other devices can find it,
 //! and spawns an http server to answer requests of Spotify clients.
@@ -24,9 +24,9 @@ use tokio::sync::{mpsc, oneshot};
 use self::server::DiscoveryServer;
 
 pub use crate::core::Error;
-use librespot_core as core;
+use spotipi_core as core;
 
-/// Credentials to be used in [`librespot`](`librespot_core`).
+/// Credentials to be used in [`spotipi`](`spotipi_core`).
 pub use crate::core::authentication::Credentials;
 
 /// Determining the icon in the list of available devices.
@@ -96,7 +96,7 @@ pub fn find(name: Option<&str>) -> Result<DnsSdServiceBuilder, Error> {
         match BACKENDS.iter().find(|(id, _)| name == id) {
             Some((_id, Some(launch_svc))) => Ok(*launch_svc),
             Some((_id, None)) => Err(Error::unavailable(format!(
-                "librespot built without '{}' support",
+                "spotipi built without '{}' support",
                 name
             ))),
             None => Err(Error::not_found(format!(
@@ -109,7 +109,7 @@ pub fn find(name: Option<&str>) -> Result<DnsSdServiceBuilder, Error> {
             .iter()
             .find_map(|(_, launch_svc)| *launch_svc)
             .ok_or(Error::unavailable(
-                "librespot built without zeroconf backends",
+                "spotipi built without zeroconf backends",
             ))
     }
 }
@@ -277,7 +277,7 @@ async fn avahi_task(
                             log::info!("Published zeroconf service");
                         }
                         EntryGroupState::Collision => {
-                            // This most likely means that librespot has unintentionally been started twice.
+                            // This most likely means that spotipi has unintentionally been started twice.
                             // Thus, don't retry with a new name, but abort.
                             //
                             // Note that the error would usually already be returned by
@@ -437,7 +437,7 @@ impl Builder {
     pub fn new<T: Into<String>>(device_id: T, client_id: T) -> Self {
         Self {
             server_config: server::Config {
-                name: "Librespot".into(),
+                name: "Spotipi".into(),
                 device_type: DeviceType::default(),
                 is_group: false,
                 device_id: device_id.into(),
@@ -449,7 +449,7 @@ impl Builder {
         }
     }
 
-    /// Sets the name to be displayed. Default is `"Librespot"`.
+    /// Sets the name to be displayed. Default is `"Spotipi"`.
     pub fn name(mut self, name: impl Into<Cow<'static, str>>) -> Self {
         self.server_config.name = name.into();
         self

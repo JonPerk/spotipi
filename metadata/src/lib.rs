@@ -6,7 +6,7 @@ extern crate async_trait;
 
 use protobuf::Message;
 
-use librespot_core::{Error, Session, SpotifyId};
+use spotipi_core::{Error, Session, SpotifyId};
 
 pub mod album;
 pub mod artist;

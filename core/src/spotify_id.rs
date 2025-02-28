@@ -4,7 +4,7 @@ use thiserror::Error;
 
 use crate::Error;
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 
 // re-export FileId for historic reasons, when it was part of this mod
 pub use crate::FileId;

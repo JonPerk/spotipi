@@ -17,8 +17,8 @@ use crate::{
     Album, Metadata, RequestResult,
 };
 
-use librespot_core::{date::Date, Error, Session, SpotifyId};
-use librespot_protocol as protocol;
+use spotipi_core::{date::Date, Error, Session, SpotifyId};
+use spotipi_protocol as protocol;
 
 #[derive(Debug, Clone)]
 pub struct Track {
@@ -68,7 +68,7 @@ impl Metadata for Track {
 }
 
 impl TryFrom<&<Self as Metadata>::Message> for Track {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(track: &<Self as Metadata>::Message) -> Result<Self, Self::Error> {
         Ok(Self {
             id: track.try_into()?,

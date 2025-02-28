@@ -4,9 +4,9 @@ use std::{
     ops::{Deref, DerefMut},
 };
 
-use librespot_core::FileId;
+use spotipi_core::FileId;
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 pub use protocol::metadata::audio_file::Format as AudioFileFormat;
 use protocol::metadata::AudioFile as AudioFileMessage;
 

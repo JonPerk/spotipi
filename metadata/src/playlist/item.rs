@@ -10,9 +10,9 @@ use super::{
     permission::Capabilities,
 };
 
-use librespot_core::{date::Date, SpotifyId};
+use spotipi_core::{date::Date, SpotifyId};
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 use protocol::playlist4_external::Item as PlaylistItemMessage;
 use protocol::playlist4_external::ListItems as PlaylistItemsMessage;
 use protocol::playlist4_external::MetaItem as PlaylistMetaItemMessage;
@@ -53,7 +53,7 @@ pub struct PlaylistMetaItems(pub Vec<PlaylistMetaItem>);
 impl_deref_wrapped!(PlaylistMetaItems, Vec<PlaylistMetaItem>);
 
 impl TryFrom<&PlaylistItemMessage> for PlaylistItem {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(item: &PlaylistItemMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             id: item.try_into()?,
@@ -65,7 +65,7 @@ impl TryFrom<&PlaylistItemMessage> for PlaylistItem {
 impl_try_from_repeated!(PlaylistItemMessage, PlaylistItems);
 
 impl TryFrom<&PlaylistItemsMessage> for PlaylistItemList {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(list_items: &PlaylistItemsMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             position: list_items.pos(),
@@ -77,7 +77,7 @@ impl TryFrom<&PlaylistItemsMessage> for PlaylistItemList {
 }
 
 impl TryFrom<&PlaylistMetaItemMessage> for PlaylistMetaItem {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(item: &PlaylistMetaItemMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             revision: item.try_into()?,

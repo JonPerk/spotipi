@@ -5,7 +5,7 @@ use std::{
 
 use crate::util::{impl_deref_wrapped, impl_from_repeated};
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 use protocol::metadata::ExternalId as ExternalIdMessage;
 
 #[derive(Debug, Clone)]

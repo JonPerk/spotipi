@@ -1,6 +1,6 @@
 use std::env;
 
-use librespot::core::{authentication::Credentials, config::SessionConfig, session::Session};
+use spotipi::core::{authentication::Credentials, config::SessionConfig, session::Session};
 
 const SCOPES: &str =
     "streaming,user-read-playback-state,user-modify-playback-state,user-read-currently-playing";
@@ -8,7 +8,7 @@ const SCOPES: &str =
 #[tokio::main]
 async fn main() {
     let mut builder = env_logger::Builder::new();
-    builder.parse_filters("librespot=trace");
+    builder.parse_filters("spotipi=trace");
     builder.init();
 
     let mut session_config = SessionConfig::default();

@@ -1,9 +1,9 @@
 [package]
-name = "librespot-discovery"
+name = "spotipi-discovery"
 version = "0.6.0-dev"
 rust-version.workspace = true
 authors = ["Paul Lietar <paul@lietar.net>"]
-description = "The discovery logic for librespot"
+description = "The discovery logic for spotipi"
 license = "MIT"
 repository = "https://github.com/librespot-org/librespot"
 edition = "2021"
@@ -32,7 +32,7 @@ thiserror = "2.0"
 tokio = { version = "1", features = ["parking_lot", "sync", "rt"] }
 zbus = { version = "5", default-features = false, features = ["tokio"], optional = true }
 
-[dependencies.librespot-core]
+[dependencies.spotipi-core]
 path = "../core"
 version = "0.6.0-dev"
 

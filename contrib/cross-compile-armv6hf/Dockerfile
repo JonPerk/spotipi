@@ -1,11 +1,11 @@
-# Cross compilation environment for librespot in armv6hf.
+# Cross compilation environment for spotipi in armv6hf.
 # Build the docker image from the root of the project with the following command:
-# $ docker build -t librespot-cross-armv6hf -f contrib/cross-compile-armv6hf/Dockerfile .
+# $ docker build -t spotipi-cross-armv6hf -f contrib/cross-compile-armv6hf/Dockerfile .
 #
-# The resulting image can be used to build librespot for armv6hf:
-# $ docker run -v /tmp/librespot-build-armv6hf:/build librespot-cross-armv6hf
+# The resulting image can be used to build spotipi for armv6hf:
+# $ docker run -v /tmp/spotipi-build-armv6hf:/build spotipi-cross-armv6hf
 #
-# The compiled binary will be located in /tmp/librespot-build-armv6hf/arm-unknown-linux-gnueabihf/release/librespot
+# The compiled binary will be located in /tmp/spotipi-build-armv6hf/arm-unknown-linux-gnueabihf/release/spotipi
 
 FROM --platform=linux/amd64 ubuntu:18.04
 

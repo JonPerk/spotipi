@@ -5,9 +5,9 @@ use crate::{
     restriction::Restrictions, Metadata, RequestResult,
 };
 
-use librespot_core::{Error, Session, SpotifyId};
+use spotipi_core::{Error, Session, SpotifyId};
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 pub use protocol::metadata::show::ConsumptionOrder as ShowConsumptionOrder;
 pub use protocol::metadata::show::MediaType as ShowMediaType;
 
@@ -46,7 +46,7 @@ impl Metadata for Show {
 }
 
 impl TryFrom<&<Self as Metadata>::Message> for Show {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(show: &<Self as Metadata>::Message) -> Result<Self, Self::Error> {
         Ok(Self {
             id: show.try_into()?,

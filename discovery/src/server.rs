@@ -89,8 +89,8 @@ impl RequestHandler {
             "remoteName": (self.config.name),
             // valid value seen in the wild: "empty"
             "publicKey": (public_key),
-            "brandDisplayName": "librespot",
-            "modelDisplayName": "librespot",
+            "brandDisplayName": "spotipi",
+            "modelDisplayName": "spotipi",
             "libraryVersion": crate::core::version::SEMVER,
             "resolverVersion": "1",
             // valid values are "GROUP" and "NONE"

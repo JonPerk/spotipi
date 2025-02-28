@@ -8,9 +8,9 @@ use crate::{
     util::{impl_deref_wrapped, impl_try_from_repeated},
 };
 
-use librespot_core::date::Date;
+use spotipi_core::date::Date;
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 use protocol::metadata::SalePeriod as SalePeriodMessage;
 
 #[derive(Debug, Clone)]
@@ -26,7 +26,7 @@ pub struct SalePeriods(pub Vec<SalePeriod>);
 impl_deref_wrapped!(SalePeriods, Vec<SalePeriod>);
 
 impl TryFrom<&SalePeriodMessage> for SalePeriod {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(sale_period: &SalePeriodMessage) -> Result<Self, Self::Error> {
         Ok(Self {
             restrictions: sale_period.restriction.as_slice().into(),

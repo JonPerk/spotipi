@@ -31,7 +31,7 @@ use byteorder::{BigEndian, ByteOrder};
 use bytes::Bytes;
 use futures_core::TryStream;
 use futures_util::StreamExt;
-use librespot_protocol::authentication::AuthenticationType;
+use spotipi_protocol::authentication::AuthenticationType;
 use num_traits::FromPrimitive;
 use once_cell::sync::OnceCell;
 use parking_lot::RwLock;
@@ -354,7 +354,7 @@ impl Session {
     fn check_catalogue(attributes: &UserAttributes) {
         if let Some(account_type) = attributes.get("type") {
             if account_type != "premium" {
-                error!("librespot does not support {:?} accounts.", account_type);
+                error!("spotipi does not support {:?} accounts.", account_type);
                 info!("Please support Spotify and your artists and sign up for a premium account.");
 
                 // TODO: logout instead of exiting

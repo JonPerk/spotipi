@@ -15,9 +15,9 @@ use crate::{
     Metadata,
 };
 
-use librespot_core::{date::Date, Error, Session, SpotifyId};
+use spotipi_core::{date::Date, Error, Session, SpotifyId};
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 pub use protocol::metadata::episode::EpisodeType;
 
 #[derive(Debug, Clone)]
@@ -67,7 +67,7 @@ impl Metadata for Episode {
 }
 
 impl TryFrom<&<Self as Metadata>::Message> for Episode {
-    type Error = librespot_core::Error;
+    type Error = spotipi_core::Error;
     fn try_from(episode: &<Self as Metadata>::Message) -> Result<Self, Self::Error> {
         Ok(Self {
             id: episode.try_into()?,

@@ -105,7 +105,7 @@ impl Sink for PortAudioSink<'_> {
                             Some(*$parameters),
                             SAMPLE_RATE as f64,
                             FRAMES_PER_BUFFER_UNSPECIFIED,
-                            StreamFlags::DITHER_OFF, // no need to dither twice; use librespot dithering instead
+                            StreamFlags::DITHER_OFF, // no need to dither twice; use spotipi dithering instead
                             None,
                         )
                         .unwrap(),

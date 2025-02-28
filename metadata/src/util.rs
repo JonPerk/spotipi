@@ -27,7 +27,7 @@ pub(crate) use impl_from_repeated_copy;
 macro_rules! impl_try_from_repeated {
     ($src:ty, $dst:ty) => {
         impl TryFrom<&[$src]> for $dst {
-            type Error = librespot_core::Error;
+            type Error = spotipi_core::Error;
             fn try_from(src: &[$src]) -> Result<Self, Self::Error> {
                 let result: Result<Vec<_>, _> = src.iter().map(TryFrom::try_from).collect();
                 Ok(Self(result?))

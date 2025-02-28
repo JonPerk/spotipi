@@ -4,8 +4,8 @@ use crate::token::Token;
 use crate::{util, Error, SessionConfig};
 use bytes::Bytes;
 use http::{header::ACCEPT, HeaderValue, Method, Request};
-use librespot_protocol::login5::login_response::Response;
-use librespot_protocol::{
+use spotipi_protocol::login5::login_response::Response;
+use spotipi_protocol::{
     client_info::ClientInfo,
     credentials::{Password, StoredCredential},
     hashcash::HashcashSolution,

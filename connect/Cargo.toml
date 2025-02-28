@@ -1,9 +1,9 @@
 [package]
-name = "librespot-connect"
+name = "spotipi-connect"
 version = "0.6.0-dev"
 rust-version.workspace = true
 authors = ["Paul Lietar <paul@lietar.net>"]
-description = "The discovery and Spotify Connect logic for librespot"
+description = "The discovery and Spotify Connect logic for spotipi"
 license = "MIT"
 repository = "https://github.com/librespot-org/librespot"
 edition = "2021"
@@ -19,14 +19,14 @@ tokio = { version = "1", features = ["macros", "parking_lot", "sync"] }
 tokio-stream = "0.1"
 uuid = { version = "1.11.0", features = ["v4"] }
 
-[dependencies.librespot-core]
+[dependencies.spotipi-core]
 path = "../core"
 version = "0.6.0-dev"
 
-[dependencies.librespot-playback]
+[dependencies.spotipi-playback]
 path = "../playback"
 version = "0.6.0-dev"
 
-[dependencies.librespot-protocol]
+[dependencies.spotipi-protocol]
 path = "../protocol"
 version = "0.6.0-dev"

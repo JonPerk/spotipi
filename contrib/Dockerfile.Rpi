@@ -1,6 +1,6 @@
 # Create a docker image for the RPI
 # Build the docker image from the root of the project with the following command :
-# $ docker build -t librespot-rpi -f .\contrib\Dockerfile.Rpi .
+# $ docker build -t spotipi-rpi -f .\contrib\Dockerfile.Rpi .
 #
 # This builds a docker image which is usable when running docker on the rpi.
 # 
@@ -9,13 +9,13 @@
 # (see here for more info: https://gist.github.com/PieterScheffers/d50f609d9628383e4c9d8d7d269b7643 )
 #
 # Save the docker image to a file:
-# $ docker save -o contrib/librespot-rpi librespot-rpi
+# $ docker save -o contrib/spotipi-rpi spotipi-rpi
 #
 # Move it to the rpi and import it with:
-# docker load -i librespot-rpi
+# docker load -i spotipi-rpi
 #
 # Run it with:
-# docker run -d --restart unless-stopped $(for DEV in $(find /dev/snd -type c); do echo --device=$DEV:$DEV; done) --net=host --name librespot-rpi librespot-rpi --name {devicename} 
+# docker run -d --restart unless-stopped $(for DEV in $(find /dev/snd -type c); do echo --device=$DEV:$DEV; done) --net=host --name spotipi-rpi spotipi-rpi --name {devicename} 
 
 FROM debian:stretch
 
@@ -50,9 +50,9 @@ RUN apt-get update && \
     apt-get install libasound2 && \
     rm -rf /var/lib/apt/lists/*
 
-RUN mkdir /librespot
-WORKDIR /librespot
+RUN mkdir /spotipi
+WORKDIR /spotipi
 
-COPY --from=0 /build/arm-unknown-linux-gnueabihf/release/librespot .
-RUN chmod +x librespot
-ENTRYPOINT ["./librespot"]
+COPY --from=0 /build/arm-unknown-linux-gnueabihf/release/spotipi .
+RUN chmod +x spotipi
+ENTRYPOINT ["./spotipi"]

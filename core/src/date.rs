@@ -7,7 +7,7 @@ use time::{
 
 use crate::Error;
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 use protocol::metadata::Date as DateMessage;
 
 impl From<ComponentRange> for Error {

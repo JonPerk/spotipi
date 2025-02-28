@@ -79,7 +79,7 @@ impl From<ContextPlayerOptionOverrides> for Options {
 impl LoadRequest {
     /// Create a load request from a `context_uri`
     ///
-    /// For supported `context_uri` see [`SpClient::get_context`](librespot_core::spclient::SpClient::get_context)
+    /// For supported `context_uri` see [`SpClient::get_context`](spotipi_core::spclient::SpClient::get_context)
     pub fn from_context_uri(context_uri: String, options: LoadRequestOptions) -> Self {
         Self {
             context_uri,

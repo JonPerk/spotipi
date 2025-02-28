@@ -7,7 +7,7 @@ use url::Url;
 
 use super::{date::Date, Error, FileId, Session};
 
-use librespot_protocol as protocol;
+use spotipi_protocol as protocol;
 use protocol::storage_resolve::storage_resolve_response::Result as StorageResolveResponse_Result;
 use protocol::storage_resolve::StorageResolveResponse as CdnUrlMessage;
 
