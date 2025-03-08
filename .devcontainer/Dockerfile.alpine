@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 ARG alpine_version=alpine3.19
-ARG rust_version=1.81.0
+ARG rust_version=1.82.0
 FROM rust:${rust_version}-${alpine_version}
 
 ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL="sparse"
@@ -24,9 +24,24 @@ RUN apk add --no-cache \
         gstreamer-dev \
         gst-plugins-base-dev \
         jack-dev \
-        avahi-dev && \
+        avahi-dev \
+        # cec dependencies
+        cmake \
+        libudev-dev \
+        libxrandr-dev \
+        python3-dev \
+        swig && \
         rm -rf /lib/apk/db/*
 
 RUN rustup component add rustfmt && \
     rustup component add clippy && \
     cargo install cargo-hack
+
+RUN git clone https://github.com/Pulse-Eight/libcec.git && \
+        mkdir libcec/build && \
+        cd libcec/build && \
+        cmake .. && \
+        make -j4 && \
+        sudo make install && \
+        sudo ldconfig && \
+        cd ../../

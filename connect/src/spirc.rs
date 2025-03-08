@@ -1149,6 +1149,10 @@ impl SpircTask {
         if let Err(why) = self.connect_state.reset_playback_to_position(None) {
             warn!("failed filling up next_track during stopping: {why}")
         }
+
+        if !self.connect_state.is_active() {
+            self.cec_client.deactivate_source();
+        }
     }
 
     fn handle_activate(&mut self) {
@@ -1161,9 +1165,10 @@ impl SpircTask {
             self.session.client_brand_name(),
             self.session.client_model_name(),
         );
-
+        
         self.player
             .emit_volume_changed_event(self.connect_state.device_info().volume as u16);
+            // .emit_volume_changed_event(self.cec_client.fetch_audiosystem_status().volume() as u16);
 
         self.player
             .emit_auto_play_changed_event(self.session.autoplay());
@@ -1294,6 +1299,7 @@ impl SpircTask {
     }
 
     fn handle_play(&mut self) {
+        self.cec_client.activate_source();
         match self.play_status {
             SpircPlayStatus::Paused {
                 position_ms,
@@ -1638,6 +1644,8 @@ impl SpircTask {
                 self.player.emit_volume_changed_event(volume);
             }
         }
+        // TODO enable audiosystem volume
+        // self.cec_client.update_volume(volume);
     }
 }
 

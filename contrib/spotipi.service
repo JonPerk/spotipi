@@ -1,16 +1,29 @@
 [Unit]
-Description=Spotipi (an open source Spotify client)
-Documentation=https://github.com/spotipi-org/spotipi
-Documentation=https://github.com/spotipi-org/spotipi/wiki/Options
+Description=SpotiPi (Spotify Connect Client)
+Documentation=https://github.com/jonperk/spotipi
+Documentation=https://github.com/dtcooper/raspotify
+Documentation=https://github.com/librespot-org/librespot
+Documentation=https://github.com/librespot-org/librespot/wiki/Options
 Wants=network.target sound.target
 After=network.target sound.target
 
+#OnFailure=spotipi-crash-report-generator.service
+
 [Service]
-DynamicUser=yes
+DynamicUser=no
 SupplementaryGroups=audio
-Restart=always
+
+Restart=on-failure
 RestartSec=10
-ExecStart=/usr/bin/spotipi --name "%p@%H"
+
+# with vol control and callback
+#ExecStart=/usr/bin/spotipi --onevent /usr/bin/spotipi-onevent.py -n "SpotiPi" -b 320 -c /usr/lib/spotipi/cache --cache-size-limit 500M --backend "alsa" --device "hdmi:CARD=vc4hdmi,DEV=0" -m "alsa"
+
+# with callback no vol control
+#ExecStart=/usr/bin/spotipi --onevent /usr/bin/spotipi-onevent.py -n "SpotiPi" -b 320 -c /usr/lib/spotipi/cache --cache-size-limit 500M --backend "alsa" --device "hdmi:CARD=vc4hdmi,DEV=0" --mixer softvol --volume-ctrl fixed --initial-volume 100
+
+# with no vol control or callback
+ExecStart=/usr/bin/spotipi -n "SpotiPi" -b 320 -c /usr/lib/spotipi/cache --cache-size-limit 500M --backend "alsa" --device "hdmi:CARD=vc4hdmi,DEV=0" --mixer softvol --volume-ctrl fixed --initial-volume 100
 
 [Install]
 WantedBy=multi-user.target

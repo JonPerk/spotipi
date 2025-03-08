@@ -1,7 +1,7 @@
 [package]
 name = "spotipi"
 version = "0.6.0-dev"
-rust-version = "1.81"
+rust-version = "1.82"
 authors = ["Jon Perkowski","Librespot Org"]
 license = "MIT"
 description = "An open source client library for Spotify, with support for Spotify Connect, based on Librespot (https://github.com/librespot-org/librespot)"
@@ -103,4 +103,4 @@ assets = [
 ]
 
 [workspace.package]
-rust-version = "1.81"
+rust-version = "1.82"

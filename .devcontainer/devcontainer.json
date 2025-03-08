@@ -1,6 +1,6 @@
 {
   "name": "SpotiPi Devcontainer",
-  "dockerFile": "Dockerfile.alpine",
+  "dockerFile": "Dockerfile",
 	// Use 'postCreateCommand' to run commands after the container is created.
 	//"postCreateCommand": "",
 	"customizations": {

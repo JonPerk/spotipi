@@ -1,7 +1,6 @@
 [package]
 name = "spotipi-playback"
 version = "0.6.0-dev"
-rust-version.workspace = true
 authors = ["Sasha Hilton <sashahilton00@gmail.com>"]
 description = "The audio playback logic for spotipi"
 license = "MIT"
@@ -57,7 +56,7 @@ rand = { version = "0.8", features = ["small_rng"] }
 rand_distr = "0.4"
 
 # CEC
-cec-rs = "11.0.2"
+cec-rs = "11.0"
 
 [features]
 alsa-backend = ["alsa"]
