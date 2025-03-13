@@ -11,7 +11,7 @@ async fn main() {
     let mut server =
         spotipi_discovery::Discovery::builder(device_id, SessionConfig::default().client_id)
             .name(name)
-            .device_type(DeviceType::Speaker)
+            .device_type(DeviceType::Avr)
             .is_group(true)
             .launch()
             .unwrap();

@@ -4,6 +4,7 @@ use crate::player::db_to_ratio;
 pub trait MappedCtrl {
     fn to_mapped(&self, volume: u16) -> f64;
     fn as_unmapped(&self, mapped_volume: f64) -> u16;
+    fn to_steps(&self, mapped_volume: f64, steps: u16) -> i32;
 
     fn db_range(&self) -> f64;
     fn set_db_range(&mut self, new_db_range: f64);
@@ -77,10 +78,15 @@ impl MappedCtrl for VolumeCtrl {
         (unmapped_volume * Self::MAX_VOLUME as f64) as u16
     }
 
+    fn to_steps(&self, mapped_volume: f64, steps: u16) -> i32 {
+        f64::round(mapped_volume * (steps as f64)) as i32
+    }
+    
     fn db_range(&self) -> f64 {
         match *self {
             Self::Fixed => 0.0,
             Self::Linear => Self::DEFAULT_DB_RANGE, // arbitrary, could be anything > 0
+            Self::LinearPass => Self::DEFAULT_DB_RANGE, // arbitrary, could be anything > 0
             Self::Log(db_range) | Self::Cubic(db_range) => db_range,
         }
     }
@@ -95,7 +101,7 @@ impl MappedCtrl for VolumeCtrl {
     }
 
     fn range_ok(&self) -> bool {
-        self.db_range() > 0.0 || matches!(self, Self::Fixed | Self::Linear)
+        self.db_range() > 0.0 || matches!(self, Self::Fixed | Self::Linear | Self::LinearPass)
     }
 }
 

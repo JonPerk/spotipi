@@ -1,6 +1,6 @@
 [package]
 name = "spotipi-oauth"
-version = "0.6.0-dev"
+version = "0.7.0"
 rust-version.workspace = true
 authors = ["Nick Steel <nick@nsteel.co.uk>"]
 description = "OAuth authorization code flow with PKCE for obtaining a Spotify access token"

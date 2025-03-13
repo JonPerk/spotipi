@@ -17,13 +17,16 @@ Restart=on-failure
 RestartSec=10
 
 # with vol control and callback
-#ExecStart=/usr/bin/spotipi --onevent /usr/bin/spotipi-onevent.py -n "SpotiPi" -b 320 -c /usr/lib/spotipi/cache --cache-size-limit 500M --backend "alsa" --device "hdmi:CARD=vc4hdmi,DEV=0" -m "alsa"
+# ExecStart=/usr/bin/spotipi --onevent /usr/bin/spotipi-onevent.py -c /usr/lib/spotipi/cache --cache-size-limit 500M --backend "alsa" --device "hdmi:CARD=vc4hdmi,DEV=0" -m softvol --volume-ctrl linearpass -q
 
 # with callback no vol control
-#ExecStart=/usr/bin/spotipi --onevent /usr/bin/spotipi-onevent.py -n "SpotiPi" -b 320 -c /usr/lib/spotipi/cache --cache-size-limit 500M --backend "alsa" --device "hdmi:CARD=vc4hdmi,DEV=0" --mixer softvol --volume-ctrl fixed --initial-volume 100
+# ExecStart=/usr/bin/spotipi --onevent /usr/bin/spotipi-onevent.py -c /usr/lib/spotipi/cache --cache-size-limit 500M --backend "alsa" --device "hdmi:CARD=vc4hdmi,DEV=0" -m softvol --volume-ctrl fixed --initial-volume 100 -q
 
 # with no vol control or callback
-ExecStart=/usr/bin/spotipi -n "SpotiPi" -b 320 -c /usr/lib/spotipi/cache --cache-size-limit 500M --backend "alsa" --device "hdmi:CARD=vc4hdmi,DEV=0" --mixer softvol --volume-ctrl fixed --initial-volume 100
+# ExecStart=/usr/bin/spotipi -c /usr/lib/spotipi/cache --cache-size-limit 500M --backend "alsa" --device "hdmi:CARD=vc4hdmi,DEV=0" -m softvol --volume-ctrl fixed --initial-volume 100 -q
+
+# with vol control no callback
+ExecStart=/usr/bin/spotipi --onevent /usr/bin/spotipi-onevent.py -c /usr/lib/spotipi/cache --cache-size-limit 500M --backend "alsa" --device "hdmi:CARD=vc4hdmi,DEV=0" -m softvol --volume-ctrl linearpass -q
 
 [Install]
 WantedBy=multi-user.target

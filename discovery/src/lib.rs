@@ -449,13 +449,13 @@ impl Builder {
         }
     }
 
-    /// Sets the name to be displayed. Default is `"Spotipi"`.
+    /// Sets the name to be displayed. Default is `"SpotiPi"`.
     pub fn name(mut self, name: impl Into<Cow<'static, str>>) -> Self {
         self.server_config.name = name.into();
         self
     }
 
-    /// Sets the device type which is visible as icon in other Spotify clients. Default is `Speaker`.
+    /// Sets the device type which is visible as icon in other Spotify clients. Default is `AVR`.
     pub fn device_type(mut self, device_type: DeviceType) -> Self {
         self.server_config.device_type = device_type;
         self
