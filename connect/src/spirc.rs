@@ -11,6 +11,7 @@ use crate::{
     },
     model::{LoadRequest, PlayingTrack, SpircPlayStatus},
     playback::{
+        cec::{CecClient, CecEvent},
         mixer::Mixer,
         player::{Player, PlayerEvent, PlayerEventChannel},
     },
@@ -31,7 +32,6 @@ use crate::{
     LoadContextOptions, LoadRequestOptions,
 };
 use futures_util::StreamExt;
-use spotipi_playback::cec::CecClient;
 use protobuf::MessageField;
 use std::{
     future::Future,
@@ -40,7 +40,7 @@ use std::{
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 use thiserror::Error;
-use tokio::{sync::mpsc, time::sleep};
+use tokio::{sync::mpsc, task::JoinSet, time::sleep};
 
 #[derive(Debug, Error)]
 enum SpircError {
@@ -71,6 +71,7 @@ struct SpircTask {
     player: Arc<Player>,
     mixer: Arc<dyn Mixer>,
     cec_client: Arc<CecClient>,
+    cec_handles: Option<Box<dyn FnOnce() -> JoinSet<()> + Send>>,
 
     /// the state management object
     connect_state: ConnectState,
@@ -134,6 +135,8 @@ enum SpircCommand {
 
 const CONTEXT_FETCH_THRESHOLD: usize = 2;
 
+// limit number of retrys to attempt CEC volume initialization, high number b/c is fast
+const MAX_CEC_VOLUME_INIT_RETRIES:u16 = 500;
 // delay to update volume after a certain amount of time, instead on each update request
 const VOLUME_UPDATE_DELAY: Duration = Duration::from_secs(2);
 // to reduce updates to remote, we group some request by waiting for a set amount of time
@@ -226,7 +229,7 @@ impl Spirc {
             player,
             mixer,
             cec_client,
-
+            cec_handles: None,
             connect_state,
 
             play_request_id: None,
@@ -258,7 +261,22 @@ impl Spirc {
 
         let spirc = Spirc { commands: cmd_tx };
 
-        let initial_volume = task.connect_state.device_info().volume;
+        let initial_volume = if task.cec_client.is_volume_enabled() {
+            debug!("Getting CEC volume");
+            let mut loops = 0;
+            while !task.cec_client.is_volume_init() {
+                if loops == MAX_CEC_VOLUME_INIT_RETRIES {
+                    error!("Failed to fetch CEC volume in {} ms", MAX_CEC_VOLUME_INIT_RETRIES*10);
+                    break;
+                }
+                sleep(Duration::from_millis(10)).await;
+                loops += 1;
+            }
+            debug!("Retrieved CEC volume");
+            task.cec_client.get_volume() as u32
+        } else {
+            task.connect_state.device_info().volume
+        };
         task.connect_state.set_volume(0);
 
         match initial_volume.try_into() {
@@ -428,6 +446,9 @@ impl SpircTask {
             return;
         }
 
+        let (cec_sender, mut cec_receiver) = mpsc::unbounded_channel();
+        self.cec_handles = Some(CecClient::run(self.cec_client.clone(), cec_sender));
+
         while !self.session.is_invalid() && !self.shutdown {
             let commands = self.commands.as_mut();
             let player_events = self.player_events.as_mut();
@@ -463,7 +484,7 @@ impl SpircTask {
                 volume_update = self.connect_state_volume_update.next() => unwrap! {
                     volume_update,
                     match |volume_update| match volume_update.volume.try_into() {
-                        Ok(volume) => self.set_volume(volume),
+                        Ok(volume) => self.update_volume(volume),
                         Err(why) => error!("can't update volume, failed to parse i32 to u16: {why}")
                     }
                 },
@@ -502,6 +523,27 @@ impl SpircTask {
                         error!("could not dispatch player event: {}", e);
                     }
                 },
+                cec_event = async { cec_receiver.recv().await } => if let Some(cec_event) = cec_event {
+                    trace!("CEC event\n{cec_event:?}");
+                    match cec_event {
+                        CecEvent::PowerIsOnChange(on) => {
+                            // if user turns off device then we should disconnect
+                            if !on {
+                                if let Err(e) = self.handle_command(SpircCommand::Disconnect { pause: true }).await {
+                                    error!("CEC device power off disconnect failed: {}", e);
+                                };
+                            }
+                        },
+                        CecEvent::VolumeChange(old, new) => {
+                            if old != new {
+                                self.set_volume(new);
+                                if let Err(why) = self.connect_state.notify_volume_changed(&self.session).await {
+                                    error!("error updating connect state for volume update: {why}")
+                                }
+                            }
+                        },
+                    }
+                },
                 _ = async { sleep(UPDATE_STATE_DELAY).await }, if self.update_state => {
                     self.update_state = false;
 
@@ -511,7 +553,7 @@ impl SpircTask {
                 },
                 _ = async { sleep(VOLUME_UPDATE_DELAY).await }, if self.update_volume => {
                     self.update_volume = false;
-
+                    
                     info!("delayed volume update for all devices: volume is now {}", self.connect_state.device_info().volume);
                     if let Err(why) = self.connect_state.notify_volume_changed(&self.session).await {
                         error!("error updating connect state for volume update: {why}")
@@ -553,8 +595,11 @@ impl SpircTask {
             if let Err(why) = self.handle_disconnect().await {
                 error!("error during disconnecting: {why}")
             }
+            if let Some(cec_handles) = self.cec_handles.take() {
+                cec_handles().join_all().await;
+            }
         }
-
+        
         self.session.dealer().close().await;
     }
 
@@ -618,6 +663,9 @@ impl SpircTask {
                 self.shutdown = true;
                 if let Some(rx) = self.commands.as_mut() {
                     rx.close()
+                }
+                if let Some(cec_handles) = self.cec_handles.take() {
+                    cec_handles().join_all().await;
                 }
             }
             SpircCommand::Activate if !self.connect_state.is_active() => {
@@ -911,6 +959,7 @@ impl SpircTask {
             if became_inactive {
                 info!("device became inactive");
                 self.connect_state.became_inactive(&self.session).await?;
+                self.cec_client.deactivate_source();
                 self.handle_stop()
             } else if self.connect_state.is_active() {
                 // fixme: workaround fix, because of missing information why it behaves like it does
@@ -1103,6 +1152,8 @@ impl SpircTask {
 
         let is_playing = !transfer.playback.is_paused();
 
+        self.cec_client.activate_source();
+
         if self.connect_state.current_track(|t| t.is_autoplay()) || autoplay {
             debug!("currently in autoplay context, async resolving autoplay for {ctx_uri}");
 
@@ -1119,7 +1170,7 @@ impl SpircTask {
         self.load_track(is_playing, position.try_into()?)
     }
 
-    async fn handle_disconnect(&mut self) -> Result<(), Error> {
+    async fn handle_disconnect(&mut self) -> Result<(), Error> {        
         self.context_resolver.clear();
 
         self.play_status = SpircPlayStatus::Stopped {};
@@ -1129,6 +1180,8 @@ impl SpircTask {
 
         self.connect_state.became_inactive(&self.session).await?;
 
+        self.cec_client.deactivate_source();
+        
         // this should clear the active session id, leaving an empty state
         self.session
             .spclient()
@@ -1149,10 +1202,6 @@ impl SpircTask {
         if let Err(why) = self.connect_state.reset_playback_to_position(None) {
             warn!("failed filling up next_track during stopping: {why}")
         }
-
-        if !self.connect_state.is_active() {
-            self.cec_client.deactivate_source();
-        }
     }
 
     fn handle_activate(&mut self) {
@@ -1166,9 +1215,11 @@ impl SpircTask {
             self.session.client_model_name(),
         );
         
-        self.player
-            .emit_volume_changed_event(self.connect_state.device_info().volume as u16);
-            // .emit_volume_changed_event(self.cec_client.fetch_audiosystem_status().volume() as u16);
+        if self.cec_client.is_volume_enabled() {
+            self.player.emit_volume_changed_event(self.cec_client.get_volume() as u16);
+        } else {
+            self.player.emit_volume_changed_event(self.connect_state.device_info().volume as u16);
+        }
 
         self.player
             .emit_auto_play_changed_event(self.session.autoplay());
@@ -1299,7 +1350,6 @@ impl SpircTask {
     }
 
     fn handle_play(&mut self) {
-        self.cec_client.activate_source();
         match self.play_status {
             SpircPlayStatus::Paused {
                 position_ms,
@@ -1505,6 +1555,8 @@ impl SpircTask {
     }
 
     fn handle_volume_up(&mut self) {
+        self.cec_client.volume_up();
+
         let volume_steps = self.connect_state.device_info().capabilities.volume_steps as u16;
 
         let volume = (self.connect_state.device_info().volume as u16).saturating_add(volume_steps);
@@ -1512,6 +1564,7 @@ impl SpircTask {
     }
 
     fn handle_volume_down(&mut self) {
+        self.cec_client.volume_down();
         let volume_steps = self.connect_state.device_info().capabilities.volume_steps as u16;
 
         let volume = (self.connect_state.device_info().volume as u16).saturating_sub(volume_steps);
@@ -1644,8 +1697,11 @@ impl SpircTask {
                 self.player.emit_volume_changed_event(volume);
             }
         }
-        // TODO enable audiosystem volume
-        // self.cec_client.update_volume(volume);
+    }
+
+    fn update_volume(&mut self, volume: u16) {
+        self.cec_client.set_volume(volume);
+        self.set_volume(volume);
     }
 }
 

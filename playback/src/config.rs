@@ -165,6 +165,7 @@ impl Default for PlayerConfig {
 pub enum VolumeCtrl {
     Cubic(f64),
     Fixed,
+    LinearPass,
     Linear,
     Log(f64),
 }
@@ -194,6 +195,7 @@ impl VolumeCtrl {
             "cubic" => Ok(Cubic(db_range)),
             "fixed" => Ok(Fixed),
             "linear" => Ok(Linear),
+            "linearpass" => Ok(LinearPass),
             "log" => Ok(Log(db_range)),
             _ => Err(()),
         }

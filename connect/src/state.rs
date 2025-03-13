@@ -79,7 +79,7 @@ impl From<StateError> for Error {
 pub struct ConnectConfig {
     /// The name of the connect device (default: spotipi)
     pub name: String,
-    /// The icon type of the connect device (default: [DeviceType::Speaker])
+    /// The icon type of the connect device (default: [DeviceType::Avr])
     pub device_type: DeviceType,
     /// Displays the [DeviceType] twice in the ui to show up as a group (default: false)
     pub is_group: bool,
@@ -94,8 +94,8 @@ pub struct ConnectConfig {
 impl Default for ConnectConfig {
     fn default() -> Self {
         Self {
-            name: "spotipi".to_string(),
-            device_type: DeviceType::Speaker,
+            name: "SpotiPi".to_string(),
+            device_type: DeviceType::Avr,
             is_group: false,
             initial_volume: u16::MAX / 2,
             disable_volume: false,

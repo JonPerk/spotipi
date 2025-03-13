@@ -64,9 +64,9 @@ pub enum DeviceType {
     Computer = 1,
     Tablet = 2,
     Smartphone = 3,
-    #[default]
     Speaker = 4,
     Tv = 5,
+    #[default]
     Avr = 6,
     Stb = 7,
     AudioDongle = 8,

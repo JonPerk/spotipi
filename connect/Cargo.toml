@@ -1,6 +1,6 @@
 [package]
 name = "spotipi-connect"
-version = "0.6.0-dev"
+version = "0.7.0"
 rust-version.workspace = true
 authors = ["Paul Lietar <paul@lietar.net>"]
 description = "The discovery and Spotify Connect logic for spotipi"
@@ -21,12 +21,12 @@ uuid = { version = "1.11.0", features = ["v4"] }
 
 [dependencies.spotipi-core]
 path = "../core"
-version = "0.6.0-dev"
+version = "0.7.0"
 
 [dependencies.spotipi-playback]
 path = "../playback"
-version = "0.6.0-dev"
+version = "0.7.0"
 
 [dependencies.spotipi-protocol]
 path = "../protocol"
-version = "0.6.0-dev"
+version = "0.7.0"

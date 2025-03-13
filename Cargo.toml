@@ -1,6 +1,6 @@
 [package]
 name = "spotipi"
-version = "0.6.0-dev"
+version = "0.7.0"
 rust-version = "1.82"
 authors = ["Jon Perkowski","Librespot Org"]
 license = "MIT"
@@ -23,36 +23,36 @@ doc = false
 
 [dependencies.spotipi-audio]
 path = "audio"
-version = "0.6.0-dev"
+version = "0.7.0"
 
 [dependencies.spotipi-connect]
 path = "connect"
-version = "0.6.0-dev"
+version = "0.7.0"
 
 [dependencies.spotipi-core]
 path = "core"
-version = "0.6.0-dev"
+version = "0.7.0"
 
 [dependencies.spotipi-discovery]
 path = "discovery"
-version = "0.6.0-dev"
+version = "0.7.0"
 default-features = false
 
 [dependencies.spotipi-metadata]
 path = "metadata"
-version = "0.6.0-dev"
+version = "0.7.0"
 
 [dependencies.spotipi-playback]
 path = "playback"
-version = "0.6.0-dev"
+version = "0.7.0"
 
 [dependencies.spotipi-protocol]
 path = "protocol"
-version = "0.6.0-dev"
+version = "0.7.0"
 
 [dependencies.spotipi-oauth]
 path = "oauth"
-version = "0.6.0-dev"
+version = "0.7.0"
 
 [dependencies]
 data-encoding = "2.5"

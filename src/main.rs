@@ -272,6 +272,7 @@ fn get_setup() -> Setup {
     const VERSION: &str = "version";
     const VOLUME_CTRL: &str = "volume-ctrl";
     const VOLUME_RANGE: &str = "volume-range";
+    const VOLUME_STEPS: &str = "volume-range";
     const ZEROCONF_PORT: &str = "zeroconf-port";
     const ZEROCONF_INTERFACE: &str = "zeroconf-interface";
     const ZEROCONF_BACKEND: &str = "zeroconf-backend";
@@ -327,6 +328,7 @@ fn get_setup() -> Setup {
     const ZEROCONF_PORT_SHORT: &str = "z";
     const ZEROCONF_BACKEND_SHORT: &str = ""; // no short flag
     const CEC_PORT_SHORT: &str = ""; // no short flag
+    const VOLUME_STEPS_SHORT: &str = ""; // no short flag
 
     // Options that have different descriptions
     // depending on what backends were enabled at build time.
@@ -452,7 +454,7 @@ fn get_setup() -> Setup {
     .optopt(
         DEVICE_TYPE_SHORT,
         DEVICE_TYPE,
-        "Displayed device type. Defaults to speaker.",
+        "Displayed device type. Defaults to avr.",
         "TYPE",
     ).optflag(
         "",
@@ -572,6 +574,12 @@ fn get_setup() -> Setup {
         VOLUME_RANGE,
         VOLUME_RANGE_DESC,
         "RANGE",
+    )
+    .optopt(
+        VOLUME_STEPS_SHORT,
+        VOLUME_STEPS,
+        "The steps in which the volume is incremented (default: 1024 or 75 if using CEC Linear Pass)",
+        "VOLUME_STEPS"
     )
     .optopt(
         NORMALISATION_METHOD_SHORT,
@@ -1088,7 +1096,7 @@ fn get_setup() -> Setup {
                         VOLUME_CTRL,
                         VOLUME_CTRL_SHORT,
                         volume_ctrl,
-                        "cubic, fixed, linear, log",
+                        "cubic, fixed, linear, linearpass, log",
                         "log",
                     );
 
@@ -1486,12 +1494,46 @@ fn get_setup() -> Setup {
 
         let is_group = opt_present(DEVICE_IS_GROUP);
 
+        let volume_steps_default = match mixer_config.volume_ctrl {
+            VolumeCtrl::LinearPass => 75,
+            _ => connect_default_config.volume_steps
+        };
+        let volume_steps = opt_str(VOLUME_STEPS)
+            .map(|volume_steps| {
+                let volume = match volume_steps.parse::<u16>() {
+                    Ok(value) => if value > 0 {value - 1} else {value},
+                    _ => {
+                        let valid_values = &format!(
+                            "{} - {}",
+                            u16::MIN,
+                            u16::MAX
+                        );
+
+                        let default_value = &format!("{volume_steps_default}");
+                        invalid_error_msg(
+                            VOLUME_STEPS,
+                            VOLUME_STEPS_SHORT,
+                            &volume_steps,
+                            valid_values,
+                            default_value,
+                        );
+
+                        exit(1);
+                    }
+                };
+                volume
+            })
+            .or_else(|| {
+                Some(volume_steps_default - 1)
+            }).unwrap();
+
         if let Some(initial_volume) = initial_volume {
             ConnectConfig {
                 name,
                 device_type,
                 is_group,
                 initial_volume,
+                volume_steps,
                 ..Default::default()
             }
         } else {
@@ -1499,6 +1541,7 @@ fn get_setup() -> Setup {
                 name,
                 device_type,
                 is_group,
+                volume_steps,
                 ..Default::default()
             }
         }
@@ -1936,7 +1979,13 @@ async fn main() {
     let player = Player::new(player_config, session.clone(), soft_volume, move || {
         (backend)(device, format)
     });
-    let cec_client = CecClient::new(setup.connect_config.name.clone(), setup.cec_port);
+    let cec_client = CecClient::new(
+        setup.connect_config.name.clone(), 
+        setup.cec_port, 
+        setup.mixer_config.volume_ctrl.clone(), 
+        setup.connect_config.volume_steps.clone(),
+        match setup.mixer_config.volume_ctrl { VolumeCtrl::LinearPass => true, _ => false }
+    );
 
     if let Some(player_event_program) = setup.player_event_program.clone() {
         _event_handler = Some(EventHandler::new(

@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 use spotipi::{
     connect::{ConnectConfig, LoadRequest, LoadRequestOptions, Spirc},
     core::{
@@ -6,13 +8,13 @@ use spotipi::{
     playback::mixer::MixerConfig,
     playback::{
         audio_backend,
-        config::{AudioFormat, PlayerConfig},
+        cec::CecClient,
+        config::{AudioFormat, PlayerConfig, VolumeCtrl},
         mixer,
         player::Player,
     },
 };
 
-use spotipi_playback::cec::CecClient;
 use log::LevelFilter;
 
 const CACHE: &str = ".cache";
@@ -52,7 +54,7 @@ async fn main() -> Result<(), Error> {
 
     let session = Session::new(session_config, Some(cache));
     let mixer = mixer_builder(mixer_config);
-    let cec_client = CecClient::new("Example".into(), c"/dev/cec/0".into());
+    let cec_client = CecClient::new("Example".into(), c"/dev/cec/0".into(), VolumeCtrl::from_str("fixed").unwrap(), 100, false);
 
     let player = Player::new(
         player_config,

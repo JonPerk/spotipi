@@ -1,6 +1,6 @@
 [package]
 name = "spotipi-core"
-version = "0.6.0-dev"
+version = "0.7.0"
 rust-version.workspace = true
 authors = ["Paul Lietar <paul@lietar.net>"]
 build = "build.rs"
@@ -11,11 +11,11 @@ edition = "2021"
 
 [dependencies.spotipi-oauth]
 path = "../oauth"
-version = "0.6.0-dev"
+version = "0.7.0"
 
 [dependencies.spotipi-protocol]
 path = "../protocol"
-version = "0.6.0-dev"
+version = "0.7.0"
 
 [dependencies]
 aes = "0.8"
@@ -42,7 +42,7 @@ once_cell = "1"
 parking_lot = { version = "0.12", features = ["deadlock_detection"] }
 pbkdf2 = { version = "0.12", default-features = false, features = ["hmac"] }
 pin-project-lite = "0.2"
-priority-queue = "2.0"
+priority-queue = "=2.0"
 protobuf = "3.5"
 quick-xml = { version = "0.37.1", features = ["serialize"] }
 rand = "0.8"
